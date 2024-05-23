@@ -4,7 +4,7 @@
 </p>
   
 <p align="center"> 
-<a href="https://hubconnect.top" target="_blank">🔥 Participe da Comunidade HubConnect</a>
+<a href="https://hubconnect.top" target="_blank">👉 Participe da Comunidade HubConnect 👈</a>
 </p>
 
 <hr />
