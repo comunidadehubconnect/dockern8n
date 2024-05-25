@@ -192,8 +192,43 @@ Postgres
 ![image](https://github.com/cwmkt/dockerquepasa/assets/91642837/623a6dc6-c231-4105-9a02-3070d894adb8)
 
 ```bash
-docker stack deploy --prune --resolve-image always -c portainer.yml portainer
+version: "3.8"
+
+services:
+
+  postgresql:
+    image: bitnami/postgresql:15
+    restart: always
+    environment:
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: senha
+    networks:
+      - ecosystem_network
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql_volume:/bitnami/postgresql
+      - postgresql_config_volume:/opt/bitnami/postgresql/conf
+    deploy:
+    
+
+volumes:
+  postgresql_volume:
+    external: true
+    name: postgresql_volume
+  postgresql_config_volume:
+    external: true
+    name: postgresql_config_volume
+    
+networks:
+  ecosystem_network:
+    external: true
+    name: ecosystem_network
 ```
+
+Depois clique em DEPLOY
+
+![image](https://github.com/cwmkt/dockerquepasa/assets/91642837/bdc62781-993a-4d31-b8cd-5cd6466900f5)
 
 Acesse portainer, vá até contaneir Postgres, crie banco de dados
 
