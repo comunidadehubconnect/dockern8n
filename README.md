@@ -201,7 +201,7 @@ services:
     restart: always
     environment:
       POSTGRESQL_USERNAME: postgres
-      POSTGRESQL_PASSWORD: senha
+      POSTGRESQL_PASSWORD: r45796yv3bhub9w4f3ga3ikxmxos648r
     networks:
       - ecosystem_network
     ports:
@@ -298,7 +298,7 @@ services:
       - DB_POSTGRESDB_DATABASE=n8n
       - DB_POSTGRESDB_HOST=postgresql
       - DB_POSTGRESDB_USER=postgres
-      - DB_POSTGRESDB_PASSWORD=1bb66076b9bddd85137
+      - DB_POSTGRESDB_PASSWORD=r45796yv3bhub9w4f3ga3ikxmxos648r
      #- C8Q_SINGLETHREAD=false
      #- C8Q_QUEPASAINBOXCONTROL=1001
      #- C8Q_GETCHATWOOTCONTACTS=1002
