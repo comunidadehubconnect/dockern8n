@@ -185,6 +185,31 @@ Acesse URL de seu Site e Crie Usuario
 </details>
 
 
+Postgres
+
+### Adicione Stack abaixo, Stack > add stack
+
+![image](https://github.com/cwmkt/dockerquepasa/assets/91642837/623a6dc6-c231-4105-9a02-3070d894adb8)
+
+```bash
+docker stack deploy --prune --resolve-image always -c portainer.yml portainer
+```
+
+Acesse portainer, vá até contaneir Postgres, crie banco de dados
+
+![image](https://github.com/cwmkt/woofedcrm/assets/91642837/503bf33f-ff42-4fe5-9a8f-a98e2d80d6e4)
+
+![image](https://github.com/cwmkt/woofedcrm/assets/91642837/67eb98c2-f7e7-4f27-ae9d-1befc672edcf)
+
+
+```bash
+psql -U postgres
+```
+
+```bash
+create database n8n;
+```
+
 ### Adicione Stack abaixo, Stack > add stack
 
 ![image](https://github.com/cwmkt/dockerquepasa/assets/91642837/623a6dc6-c231-4105-9a02-3070d894adb8)
