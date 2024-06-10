@@ -242,57 +242,8 @@ psql -U postgres
 ```
 
 ```bash
-create database chatwoot;
+create database n8n;
 ```
-
-Redis
-Para instalar o redis vamos fazer as mesmas etapas que fizemos no postgres: Vamos para aba Stacks e depois em add Stack
-
-![image](https://github.com/cwmkt/woofedcrm/assets/91642837/07c67cb5-465c-4e05-88e7-164ec8456f00)
-
-Colocamos o nome da stack (recomendo deixar redis)
-
-![image](https://github.com/cwmkt/woofedcrm/assets/91642837/03d15854-59bc-47df-a983-ad9adf0c93c4)
-
-Cole a stack do redis abaixo no seu portainer:
-
-```bash
-version: '3.7'
-
-services:
-  redis:
-    image: redis:latest
-    command: [
-        "redis-server",
-        "--appendonly",
-        "yes",
-        "--port",
-        "6379"
-      ]
-    volumes:
-      - redis_data:/data
-    networks:
-      - SuaRede ## ---> NOME DA REDE INTERNA <--- ##
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-
-volumes:
-  redis_data:
-    external: true
-    name: redis_woofedcrm_data
-
-networks:
-  SuaRede: ## ---> NOME DA REDE INTERNA <--- ##
-    external: true
-    name: SuaRede ## ---> NOME DA REDE INTERNA <--- ##
-```
-
-![image](https://github.com/cwmkt/woofedcrm/assets/91642837/dedb5386-bc42-465c-a39e-1ff2aa131f85)
-
-e pronto, o redis esta instalado e funcionando na sua VPS
-
 
 ### Adicione Stack abaixo, Stack > add stack
 
@@ -304,7 +255,79 @@ seuemail@seuemail.com.br<br>
 
 
 ```bash
-stack Chatwoot aqui
+version: "3.8"
+
+services:
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    restart: always
+    networks:
+      - ecosystem_network
+    volumes:
+      - n8n_cwmkt_volume:/home/node/.n8n      
+    deploy:
+
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=ecosystem_network
+        - traefik.http.routers.n8n.rule=Host(`${N8N_HOST}`)
+        - traefik.http.routers.n8n.tls=true
+        - traefik.http.routers.n8n.entrypoints=web,websecure
+        - traefik.http.routers.n8n.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.n8n.service=n8n_cwmkt
+        - traefik.http.routers.n8n.priority=1      
+        - traefik.http.middlewares.n8n.headers.SSLRedirect=true
+        - traefik.http.middlewares.n8n.headers.STSSeconds=315360000
+        - traefik.http.middlewares.n8n.headers.browserXSSFilter=true
+        - traefik.http.middlewares.n8n.headers.contentTypeNosniff=true
+        - traefik.http.middlewares.n8n.headers.forceSTSHeader=true
+        - traefik.http.middlewares.n8n.headers.SSLHost=${N8N_HOST}
+        - traefik.http.middlewares.n8n.headers.STSIncludeSubdomains=true
+        - traefik.http.middlewares.n8nt.headers.STSPreload=true
+        - traefik.http.services.n8n.loadbalancer.server.port=5678
+        - traefik.http.services.n8n.loadbalancer.passHostHeader=true            
+    environment:
+      - N8N_HOST=https://${N8N_HOST}
+      - N8N_PROTOCOL=https
+      - N8N_EDITOR_BASE_URL=https://${N8N_HOST}
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${N8N_HOST}
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_HOST=postgresql
+      - DB_POSTGRESDB_USER=postgres
+      - DB_POSTGRESDB_PASSWORD=senhaaqui
+      - C8Q_SINGLETHREAD=false
+      - C8Q_QUEPASAINBOXCONTROL=1001
+      - C8Q_GETCHATWOOTCONTACTS=1002
+      - C8Q_QUEPASACHATCONTROL=1003
+      - C8Q_CHATWOOTPROFILEUPDATE=1004
+      - C8Q_POSTTOWEBCALLBACK=1005
+      - C8Q_POSTTOCHATWOOT=1006
+      - C8Q_CHATWOOTTOQUEPASAGREETINGS=1007
+      - C8Q_CW_PUBLIC_URL=${C8Q_CW_PUBLIC_URL}
+      - C8Q_QP_DEFAULT_USER=${C8Q_QP_DEFAULT_USER}
+      - C8Q_QP_BOTTITLE=${C8Q_QP_BOTTITLE}
+      - C8Q_QP_CONTACT=${C8Q_QP_CONTACT}
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_MAX_AGE=168
+      - EXECUTIONS_DATA_PRUNE_MAX_COUNT=5000
+      - C8Q_CW_HOST=${C8Q_CW_HOST}
+      - C8Q_N8N_HOST=${C8Q_N8N_HOST}
+      - C8Q_QUEPASA_HOST=${C8Q_QUEPASA_HOST}
+
+networks:
+  ecosystem_network:
+    external: true
+    attachable: true
+    name: ecosystem_network
+
+volumes:
+  n8n_cwmkt_volume:
+    external: true
+    name: n8n_cwmkt_volume
 ```
 
 Depois clique em DEPLOY
