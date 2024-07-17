@@ -49,7 +49,7 @@ version: "3.8"
 services:
 
   traefik:
-    image: traefik:2.11.1
+    image: traefik:v2.11.0
     command:
       - "--api.dashboard=true"
       - "--providers.docker.swarmMode=true"
@@ -142,7 +142,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=ecosystem_network"
-        - "traefik.http.routers.portainer.rule=Host(`seudominio.com.br`)"
+        - "traefik.http.routers.portainer.rule=Host(`painel.seudominio.com.br`)"
         - "traefik.http.routers.portainer.entrypoints=websecure"
         - "traefik.http.routers.portainer.priority=1"
         - "traefik.http.routers.portainer.tls.certresolver=letsencryptresolver"
@@ -159,14 +159,8 @@ volumes:
   portainer_volume:
     external: true
     name: portainer_volume
-
- ```
-
-```bash
-docker swarm init
 ```
 
-docker swarm init
 ```bash
 docker network create --driver=overlay ecosystem_network
 ```
