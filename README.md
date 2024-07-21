@@ -332,6 +332,4 @@ Depois clique em DEPLOY
 Acesse: seudominio.com.<br>
 Faça seu cadastro
 
-Faça seu cadastro
-
 **Pronto tudo Funcionando** ✅😎
