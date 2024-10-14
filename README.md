@@ -236,6 +236,10 @@ psql -U postgres
 ```
 
 ```bash
+r45796yv3bhub9w4f3ga3ikxmxos648r
+```
+
+```bash
 create database n8n;
 ```
 
