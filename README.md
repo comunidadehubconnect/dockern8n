@@ -273,7 +273,7 @@ services:
         - traefik.http.routers.n8n.tls=true
         - traefik.http.routers.n8n.entrypoints=web,websecure
         - traefik.http.routers.n8n.tls.certresolver=letsencryptresolver
-        - traefik.http.routers.n8n.service=n8n_cwmkt
+        - traefik.http.routers.n8n.service=n8n
         - traefik.http.routers.n8n.priority=1      
         - traefik.http.middlewares.n8n.headers.SSLRedirect=true
         - traefik.http.middlewares.n8n.headers.STSSeconds=315360000
